@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  **/
 @Getter
 @Setter
-public class AbstractJob implements IJob<AbstractJob> {
+public abstract class AbstractJob implements IJob<AbstractJob> {
     //默认延迟三十分钟
     private final static long DELAY = 30 * 60 * 1000L;
 
