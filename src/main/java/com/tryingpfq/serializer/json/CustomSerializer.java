@@ -1,4 +1,4 @@
-package serializer.json;
+package com.tryingpfq.serializer.json;
 
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.fastjson.serializer.ObjectSerializer;

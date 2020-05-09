@@ -1,6 +1,7 @@
-package serializer.json;
+package com.tryingpfq.serializer.json;
 
 import com.alibaba.fastjson.parser.DefaultJSONParser;
+import com.alibaba.fastjson.parser.JSONToken;
 import com.alibaba.fastjson.parser.deserializer.ObjectDeserializer;
 
 import java.lang.reflect.Type;
@@ -17,6 +18,6 @@ public class CustomDeserializer implements ObjectDeserializer {
 
     @Override
     public int getFastMatchToken() {
-        return 0;
+        return JSONToken.LITERAL_INT;
     }
 }

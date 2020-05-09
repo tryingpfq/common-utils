@@ -1,4 +1,4 @@
-package serializer.gson;
+package com.tryingpfq.serializer.gson;
 
 /**
  * @Author tryingpfq
