@@ -6,7 +6,7 @@ package com.tryingpfq.nettyheart.msg;
  */
 public enum Type {
 
-    Ping(2),
+    Ping(1),
 
     Pong(2),
 

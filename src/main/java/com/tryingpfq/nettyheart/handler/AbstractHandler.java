@@ -19,6 +19,7 @@ public abstract class  AbstractHandler extends SimpleChannelInboundHandler<MsgDa
         int type = msgData.getType();
         switch (type) {
             case 1:
+                System.out.println("receive ping body:" + msgData.toString());
                 sendPongMsg(channelHandlerContext);
                 break;
             case 2:
@@ -53,12 +54,13 @@ public abstract class  AbstractHandler extends SimpleChannelInboundHandler<MsgDa
     }
 
     public void sendPingMsg(ChannelHandlerContext context) {
-        MsgData msgData = MsgData.valueOf(Type.Ping.getType(),"pong");
+        MsgData msgData = MsgData.valueOf(Type.Ping.getType(),"ping");
         context.channel().writeAndFlush(msgData);
     }
 
     public void sendPongMsg(ChannelHandlerContext context) {
         MsgData msgData = MsgData.valueOf(Type.Pong.getType(),"pong");
+        System.out.println("begin send pong");
         context.channel().writeAndFlush(msgData);
     }
 
