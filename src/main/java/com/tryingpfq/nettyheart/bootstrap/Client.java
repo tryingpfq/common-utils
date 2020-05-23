@@ -3,6 +3,7 @@ package com.tryingpfq.nettyheart.bootstrap;
 import com.tryingpfq.nettyheart.codec.MsgPckDecoder;
 import com.tryingpfq.nettyheart.codec.MsgPckEncoder;
 import com.tryingpfq.nettyheart.handler.ClientMsgHandler;
+import com.tryingpfq.serializer.gson.GsonUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -42,19 +43,21 @@ public class Client {
 
         ChannelFuture future = doConnect();
 
-        //重连机制
-        future.addListener((ChannelFutureListener) channelFuture -> {
-            if (channelFuture.isSuccess()) {
-                System.out.println("连接成功");
-            }else{
-                //重连
-                channelFuture.channel().eventLoop().schedule(() -> doConnect(), 6, TimeUnit.SECONDS);
-            }
-        });
     }
 
 
     public  ChannelFuture doConnect() {
-        return b.connect("127.0.0.1", 3322);
+        ChannelFuture connect = b.connect("127.0.0.1", 3322);
+        //重连机制
+        connect.addListener((ChannelFutureListener) channelFuture -> {
+            if (channelFuture.isSuccess()) {
+                System.out.println("connect success");
+            }else{
+                //重连
+                System.out.println("Connected");
+                channelFuture.channel().eventLoop().schedule(() -> doConnect(), 6, TimeUnit.SECONDS);
+            }
+        });
+        return connect;
     }
 }

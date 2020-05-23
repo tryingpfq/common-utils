@@ -36,7 +36,7 @@ public class ClientMsgHandler extends AbstractHandler {
     public void handAllIdele(ChannelHandlerContext context) {
         super.handAllIdele(context);
         allTime++;
-        // 空闲轮询6次 发送 ping
+        // 空闲轮询6次 发送 ping  5 * 6 = 30 seconds
         if (allTime > 6) {
             System.out.println("client sendPing");
             allTime = 0;
@@ -47,6 +47,8 @@ public class ClientMsgHandler extends AbstractHandler {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+        System.out.println("channelInactive,req Connected");
         client.doConnect();
     }
 }

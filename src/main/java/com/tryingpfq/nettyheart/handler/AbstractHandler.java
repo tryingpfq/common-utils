@@ -46,6 +46,7 @@ public abstract class  AbstractHandler extends SimpleChannelInboundHandler<MsgDa
                 handWriterIdele(ctx);
                 break;
             case ALL_IDLE:
+                // 空闲
                 handAllIdele(ctx);
                 break;
             default:
