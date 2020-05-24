@@ -15,10 +15,22 @@ import java.util.List;
  */
 public class MsgPckDecoder extends ByteToMessageDecoder {
 
+    private static final int MIN_SIZE = 2;
+
+    /**
+     * 最大1M
+     */
+    private static final int MAX_SIZE = 1 * 1024 * 1024;
+
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> out) throws Exception {
         int leangth = byteBuf.readableBytes();
-
+        if (leangth < MIN_SIZE) {
+            return;
+        }
+        if (leangth >= MAX_SIZE) {
+            return;
+        }
         byte[] data = new byte[leangth];
 
         byteBuf.readBytes(data);
