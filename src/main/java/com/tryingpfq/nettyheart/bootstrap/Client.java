@@ -3,6 +3,7 @@ package com.tryingpfq.nettyheart.bootstrap;
 import com.tryingpfq.nettyheart.codec.MsgPckDecoder;
 import com.tryingpfq.nettyheart.codec.MsgPckEncoder;
 import com.tryingpfq.nettyheart.handler.ClientMsgHandler;
+import com.tryingpfq.nettyheart.handler.ClientSideIdleHandler;
 import com.tryingpfq.serializer.gson.GsonUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -34,7 +35,9 @@ public class Client {
                     @Override
                     protected void initChannel(Channel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
-                        pipeline.addLast(new IdleStateHandler(0, 0, 5));
+                       // pipeline.addLast(new IdleStateHandler(0, 0, 5));
+                        //idle
+                        pipeline.addLast(ClientSideIdleHandler.create());
                         pipeline.addLast(new MsgPckDecoder());
                         pipeline.addLast(new MsgPckEncoder());
                         pipeline.addLast(new ClientMsgHandler(client));

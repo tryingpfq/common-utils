@@ -4,9 +4,7 @@ package com.tryingpfq.nettyheart.handler;
 import com.tryingpfq.nettyheart.bootstrap.Client;
 import com.tryingpfq.nettyheart.msg.MsgData;
 import com.tryingpfq.nettyheart.msg.Type;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,25 +21,11 @@ public class ClientMsgHandler extends AbstractHandler {
         this.client = client;
     }
 
-    private int allTime = 0;
-
     @Override
     public void handlerMsg(ChannelHandlerContext context, MsgData msgData) {
         System.out.println("recevie from Server " + msgData.toString());
         MsgData send = MsgData.valueOf(Type.Msg.getType(), String.valueOf(in.getAndDecrement()) );
         context.channel().writeAndFlush(send);
-    }
-
-    @Override
-    public void handAllIdele(ChannelHandlerContext context) {
-        super.handAllIdele(context);
-        allTime++;
-        // 空闲轮询6次 发送 ping  5 * 6 = 30 seconds
-        if (allTime > 6) {
-            System.out.println("client sendPing");
-            allTime = 0;
-            sendPingMsg(context);
-        }
     }
 
 
