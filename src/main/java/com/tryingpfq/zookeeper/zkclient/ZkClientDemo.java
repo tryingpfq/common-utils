@@ -1,49 +1,35 @@
 package com.tryingpfq.zookeeper.zkclient;
 
-import lombok.SneakyThrows;
-import org.apache.zookeeper.*;
-import org.apache.zookeeper.data.Stat;
+import com.tryingpfq.zookeeper.ZkCons;
+import org.I0Itec.zkclient.IZkChildListener;
+import org.I0Itec.zkclient.IZkDataListener;
+import org.I0Itec.zkclient.ZkClient;
 
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 /**
  * @Author tryingpfq
- * @Date 2020/11/7
+ * @Date 2020/11/8
  */
-public class ZkClientDemo implements Watcher {
+public class ZkClientDemo {
 
-    private static ZooKeeper zooKeeper;
+    private static ZkClient zkClient;
 
-    private final static String ADDRESS_STR = "192.168.146.128:2181,192.168.146.129:2181,192.168.146.130:2181";
+    public static void main(String[] args) {
+        zkClient = new ZkClient(ZkCons.CONNECT_STR, 5000);
 
-    @SneakyThrows
-    @Override
-    public void process(WatchedEvent watchedEvent) {
-        if (watchedEvent.getState() == Event.KeeperState.SyncConnected) {
-            if (watchedEvent.getType() == Event.EventType.NodeCreated) {
-                System.err.println("create Node " + watchedEvent.getPath());
-                zooKeeper.getData(watchedEvent.getPath(), true, new Stat());
+        zkClient.createEphemeral("/zkClient", "zlClient");
+
+        zkClient.subscribeDataChanges("/zkClient", new IZkDataListener() {
+            @Override
+            public void handleDataChange(String s, Object o) throws Exception {
+                System.err.println();
             }
-            if (watchedEvent.getType() == Event.EventType.NodeDataChanged) {
-                System.err.println("node change " + watchedEvent.getPath());
+
+            @Override
+            public void handleDataDeleted(String s) throws Exception {
 
             }
-        }
-    }
-
-    public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
-        zooKeeper = new ZooKeeper(ADDRESS_STR, 2000, new ZkClientDemo());
-
-        zooKeeper.create("/demo", "demo".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-        zooKeeper.getData("/demo", true, new Stat());
-        TimeUnit.SECONDS.sleep(2);
-
-        zooKeeper.setData("/demo", "demo1".getBytes(), -1);
-        TimeUnit.SECONDS.sleep(2);
-
-
-
+        });
     }
 }
