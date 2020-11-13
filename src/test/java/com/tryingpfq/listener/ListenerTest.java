@@ -1,6 +1,7 @@
 package com.tryingpfq.listener;
 
 import com.tryingpfq.listener.anno.Listener;
+import com.tryingpfq.listener.anno.Order;
 import com.tryingpfq.listener.support.ListenerSupport;
 import org.junit.Test;
 
@@ -19,13 +20,14 @@ public class ListenerTest {
     }
 
     @Listener
-    interface Inter{
+    public interface Inter{
         void test();
     }
 
     class One implements Inter {
 
         @Override
+        @Order(afterClass = Two.class)
         public void test() {
             System.err.println("one");
         }

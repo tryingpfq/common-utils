@@ -16,14 +16,14 @@ import java.util.stream.Stream;
  * @date 2020/11/13
  **/
 public class ListenerService extends InstantiationAwareBeanPostProcessorAdapter  implements PriorityOrdered {
-    private Map<Class<?>, ListenerSupport> listenerSupportMap = new ConcurrentHashMap<>();
+    private Map<Class<?>, ListenerSupport<?>> listenerSupportMap = new ConcurrentHashMap<>();
 
     @Override
     public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
       //
         Stream.of(ClassUtils.getAllInterfaces(bean.getClass())).forEach(aClass -> {
             if (aClass.isAnnotationPresent(Listener.class)) {
-                ListenerSupport<Object> listenerSupport = this.listenerSupportMap.computeIfAbsent(aClass,
+                ListenerSupport<Object> listenerSupport = (ListenerSupport<Object>) this.listenerSupportMap.computeIfAbsent(aClass,
                         ListenerSupport::create);
                 listenerSupport.addListener(bean);
 
