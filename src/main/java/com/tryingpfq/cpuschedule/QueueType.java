@@ -24,7 +24,7 @@ public enum QueueType implements Comparator<QueueType> {
 
     private Queue<Job> queue;
 
-    QueueType(Supplier<AbstractProcessHandler> supplier) {
+    QueueType(Supplier<? extends AbstractProcessHandler> supplier) {
         this.handler =  supplier.get();
         this.queue = handler.queue();
     }
