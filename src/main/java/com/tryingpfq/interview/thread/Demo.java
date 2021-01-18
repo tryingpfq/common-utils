@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 可见性，里面的一条线程是不会停止的
  * @Author tryingpfq
  * @Date 2021/1/17
  */
