@@ -1,4 +1,4 @@
-package com.tryingpfq.forkjoin;
+package com.tryingpfq.threadpool.forkjoin;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
